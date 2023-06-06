@@ -6,9 +6,7 @@
         <div class="col-lg-6 col-md-8 mx-auto">
           <h1 class="fw-light">Album example</h1>
           <p class="lead text-body-secondary">
-            Something short and leading about the collection below—its contents,
-            the creator, etc. Make it short and sweet, but not too short so
-            folks don’t simply skip over it entirely.
+            {{ item }}
           </p>
           <p>
             <a href="#" class="btn btn-primary my-2">Main call to action</a>
@@ -22,7 +20,7 @@
       <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
           <div class="col" v-for="(item,idx) in state.items" :key="idx">
-            <Card/>
+            <Card :item="item"/>
           </div>
         </div>
       </div>
@@ -43,10 +41,10 @@ export default {
     const state = reactive({
       items:[],
     })
-    axios.get('/api/items').then((res)=> {
-      state.items = res.data
+    axios.get('/api/items').then(({data})=> {
+      state.items = data
     })
-    return state
+    return {state}
   }
 };
 </script>

@@ -16,9 +16,7 @@
               </svg>
               <div class="card-body">
                 <p class="card-text">
-                  This is a wider card with supporting text below as a natural
-                  lead-in to additional content. This content is a little bit
-                  longer.
+                  {{item}}
                 </p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
@@ -44,6 +42,9 @@
 <script>
     export default {
         name: 'Card',
+        props:{
+            item:String,
+        }
     }
 </script>
 
