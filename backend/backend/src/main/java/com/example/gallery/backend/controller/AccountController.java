@@ -4,11 +4,14 @@ import com.example.gallery.backend.entity.Item;
 import com.example.gallery.backend.entity.Member;
 import com.example.gallery.backend.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
+import javax.management.relation.RelationServiceNotRegisteredException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +29,8 @@ public class AccountController {
         Member member = memberRepository.findByEmailAndPassword(params.get("email"), params.get("password"));
         System.out.println(params.get("email1"));
         if(member != null) return member.getId();
-        return 0;
+
+        throw new ResponseStatusException(  HttpStatus.NOT_FOUND);
 
     }
 
