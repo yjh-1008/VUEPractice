@@ -5,13 +5,11 @@ import com.example.gallery.backend.entity.Member;
 import com.example.gallery.backend.repository.MemberRepository;
 import com.example.gallery.backend.service.JwtService;
 import com.example.gallery.backend.service.JwtServiceImpl;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.management.relation.RelationServiceNotRegisteredException;
@@ -27,16 +25,17 @@ public class AccountController {
     @Autowired
     MemberRepository memberRepository;
 
+    @Autowired
+    JwtService jwtService;
+
     @PostMapping("/api/account/login")
     public ResponseEntity login(
             @RequestBody Map<String, String> params,
             HttpServletResponse res
     ) {
         Member member = memberRepository.findByEmailAndPassword(params.get("email"), params.get("password"));
-        System.out.println(params.get("email1"));
         if(member != null){
             int id = member.getId();
-            JwtService jwtService = new JwtServiceImpl();
             String token = jwtService.getToken("id", id);
 
             Cookie cookie = new Cookie("token", token);
@@ -48,6 +47,19 @@ public class AccountController {
 
         throw new ResponseStatusException(  HttpStatus.NOT_FOUND);
 
+    }
+
+    @GetMapping("/api/account/check")
+    public ResponseEntity check(@CookieValue(value="token", required = false) String token) {
+       Claims claims = jwtService.getClaims(token);
+
+       if(claims != null) {
+           int id = Integer.parseInt(claims.get("id").toString());
+           return new ResponseEntity<>(id, HttpStatus.OK);
+       }
+
+
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
 }
