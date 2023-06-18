@@ -1,6 +1,8 @@
 package com.example.gallery.backend.entity;
 
-import jakarta.persistence.*;
+import lombok.*;
+
+import javax.persistence.*;
 import lombok.Getter;
 @Getter
 @Entity
