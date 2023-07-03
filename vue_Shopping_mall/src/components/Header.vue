@@ -29,7 +29,7 @@
     </div>
     <div class="navbar navbar-dark bg-dark shadow-sm">
       <div class="container">
-        <a href="#" class="navbar-brand d-flex align-items-center">
+        <router-link to ="/" class="navbar-brand d-flex align-items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -48,8 +48,11 @@
             />
             <circle cx="12" cy="13" r="4" />
           </svg>
-          <strong>Album</strong>
-        </a>
+          <strong>Gallery </strong>
+        </router-link>
+        <router-link to ="/cart" class="cart btn">
+          <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+        </router-link>
         <button
           class="navbar-toggler"
           type="button"
@@ -83,4 +86,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+header .navbar .cart{
+  margin-left: auto;
+  color: white;
+}
+</style>
