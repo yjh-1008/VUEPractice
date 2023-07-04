@@ -38,17 +38,17 @@ public class CartController {
         List<Item> items = itemRepository.findByIdIn(itemIds);
 
 
-
         return new ResponseEntity<>(items, HttpStatus.OK);
     }
 
 
     @PostMapping("/api/cart/items/{itemId}")
     public ResponseEntity<Item> pushCartItem(
-            @PathVariable("itemId") int itemId,
+    @PathVariable("itemId") int itemId,
             @CookieValue(value = "token", required = false) String token
     ) {
 
+        System.out.println("here");
         if (!jwtService.isValid((token))) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
